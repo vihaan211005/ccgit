@@ -63,7 +63,7 @@ func commit_dir(origin string, cur string, remove []string) []byte{
 				id = makeobject.MakeObject(datas[i], "blob", path.Join(origin, MainName))
 			}
 			id_bytes, _ := hex.DecodeString(id)
-			tree_data = slices.Concat(tree_data, []byte("100" + perms[i]+ " " + names[i] + "\000"), id_bytes)
+			tree_data = slices.Concat(tree_data, []byte(perms[i]+ " " + names[i] + "\000"), id_bytes)
 		}
 	}
 	return tree_data
