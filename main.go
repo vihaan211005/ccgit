@@ -55,9 +55,11 @@ func commit_dir(origin string, cur string, remove []string) []byte{
 			fmt.Println(names[i], perms[i], string(datas[i]), isdirs[i])
 			var id string
 			if(isdirs[i]){
+				perms[i] = "40000"
 				data := commit_dir(origin, path.Join(cur, names[i]), remove)
 				id = makeobject.MakeObject(data, "tree", dir)
 			}else{
+				perms[i] = "100"+perms[i]
 				id = makeobject.MakeObject(datas[i], "blob", path.Join(origin, MainName))
 			}
 			id_bytes, _ := hex.DecodeString(id)
