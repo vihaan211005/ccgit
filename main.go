@@ -78,15 +78,26 @@ func commit(){
 	
 	tree_data := commit_dir(path.Dir(dir), "", remove)
 	tree_id := makeobject.MakeObject(tree_data, "tree", dir)
+
+	root_commit := false
+	if _, err := os.Stat(path.Join(dir,"refs","heads","master")); os.IsNotExist(err) {
+		root_commit = true;
+	}
 	
 	duration := time.Since(Birth)
 	seconds := strconv.Itoa(int(duration.Seconds()))
 
 	var commit_data []byte
-	commit_data = slices.Concat(commit_data, []byte("tree" + " " + tree_id + "\n" + "author " + os.Getenv("AUTHOR_NAME") + " " + os.Getenv("AUTHOR_EMAIL") + " " + seconds))
+	parent_commit := ""
+	if(!root_commit){
+		t, _ := os.ReadFile(path.Join(dir,"refs","heads","master"))
+		parent_commit = "\nparent " + string(t)
+	}
+
+	commit_data = slices.Concat(commit_data, []byte("tree " + tree_id + parent_commit +"\n" + "author " + os.Getenv("AUTHOR_NAME") + " " + os.Getenv("AUTHOR_EMAIL") + " " + seconds))
 	
 	commit_id := makeobject.MakeObject(commit_data, "commit", dir)
-	
+
 	os.WriteFile(path.Join(dir,"refs", "heads", "master"), []byte(commit_id), os.ModePerm)
 	fmt.Println(commit_id)
 }
