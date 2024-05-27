@@ -1,4 +1,4 @@
-package sha1
+package utils
 
 import (
 	"crypto/sha1"

@@ -1,4 +1,4 @@
-package readgandmrae
+package utils
 
 import (
 	"os"

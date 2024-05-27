@@ -1,9 +1,5 @@
 .git
-gits
-makeobject
-readdir
-readgandmrae
-sha1
+pkg
 .gandmrae
 go.mod
 Inflate
