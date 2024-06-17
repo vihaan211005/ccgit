@@ -5,21 +5,21 @@ import (
 	"path"
 )
 
-func GoToDir(mainName string) (string, int){
+func GoToDir(mainName string) (string, bool){
 	dir, _ := os.Getwd()
 	temp:=dir
 	
 	names, _, _, _, _:= ReadDir(temp)
-	found := 1
-	for !Contains(names, mainName){
+	found := true
+	for Contains(names, mainName)==-1{
 		temp = path.Dir(temp)
 		names, _, _, _, _ = ReadDir(temp)
 		if(temp=="/"){
-			found = 0
+			found = false
 			break
 		}
 	}
-	if found==1{
+	if found{
 		return path.Join(temp, mainName), found
 	}else{
 		return path.Join(dir, mainName), found

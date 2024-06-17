@@ -1,10 +1,10 @@
 package utils
 
-func Contains(s []string, e string) bool {
-    for _, a := range s {
+func Contains[T comparable](s []T, e T) int {
+    for i, a := range s {
         if a == e {
-            return true
+            return i
         }
     }
-    return false
+    return -1
 }

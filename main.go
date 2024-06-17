@@ -21,13 +21,19 @@ func main(){
 	}
 	switch args[1]{
 	case "chalu":
-		if (found==0){
+		if (!found){
 			handlers.InitHandler(args, dir, MainName)
 		}else{
 			log.Fatal("Already Initialised at "+dir)
 		}
+	case "dal":
+		if(found){
+			handlers.AddHandler(args, dir)
+		}else{
+			log.Fatal("Not initialised(Initialise by chalu)")
+		}
 	case "cumit":
-		if(found==1){
+		if(found){
 			handlers.CommitHandler(dir, Ignore, MainName, Birth)
 		}else{
 			log.Fatal("Not initialised(Initialise by chalu)")

@@ -15,11 +15,10 @@ func commit_dir(origin string, cur string, remove []string, MainName string) []b
 	names, perms, datas, isdirs,n := utils.ReadDir(path.Join(origin, cur))
 	var tree_data []byte
 	for i := range n{
-		if(!utils.Contains(remove, path.Join(cur, names[i]))){
-			fmt.Println(names[i], perms[i], string(datas[i]), isdirs[i])
+		if(utils.Contains(remove, path.Join(cur, names[i]))==-1){
 			var id string
 			if(isdirs[i]){
-				perms[i] = "40000"
+				perms[i] = "040000"
 				data := commit_dir(origin, path.Join(cur, names[i]), remove, MainName)
 				id = utils.MakeObject(data, "tree", path.Join(origin, MainName))
 			}else{
@@ -33,7 +32,7 @@ func commit_dir(origin string, cur string, remove []string, MainName string) []b
 	return tree_data
 }
 
-func CommitHandler(dir string, Ignore string, MainName string, Birth time.Time){
+func CommitHandler_prev(dir string, Ignore string, MainName string, Birth time.Time){
 	remove := utils.ReadGandMrae(path.Join(path.Dir(dir), Ignore))
 	remove = append(remove, MainName)
 	
@@ -61,4 +60,8 @@ func CommitHandler(dir string, Ignore string, MainName string, Birth time.Time){
 
 	os.WriteFile(path.Join(dir,"refs", "heads", "master"), []byte(commit_id), os.ModePerm)
 	fmt.Println(commit_id)
+}
+
+func CommitHandler(dir string, Ignore string, MainName string, Birth time.Time){
+	
 }
